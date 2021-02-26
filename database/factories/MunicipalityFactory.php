@@ -1,0 +1,31 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Municipality;
+use App\Models\Region;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class MunicipalityFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Municipality::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->address,
+            'region_id' => Region::factory(),
+            'source' => 'faker'
+        ];
+    }
+}
