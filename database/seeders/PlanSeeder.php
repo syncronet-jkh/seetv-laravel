@@ -18,7 +18,7 @@ class PlanSeeder extends Seeder
     {
         $viewer = Role::findByName(Role::VIEWER);
         $distributor = Role::findByName(Role::DISTRIBUTOR);
-        $publisher = Role::findByName(Role::PUBLISHER);
+        $publisher = Role::findByName(Role::STREAMER);
 
         $this->createFreeViewer($viewer);
 
@@ -59,7 +59,7 @@ class PlanSeeder extends Seeder
         $viewerSubscription = Plan::create([
             'title' => 'Viewer Subscription',
             'role_id' => $role->getKey(),
-            'binding_period' => "1 month",
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
         $viewerSubscription->setTranslation('title', 'da', 'Seer Abonnement');
         $viewerSubscription->allow(
@@ -78,7 +78,7 @@ class PlanSeeder extends Seeder
         $distributorMulti50 = Plan::create([
             'title' => 'Multi50 DUR**',
             'role_id' => $role->getKey(),
-            'binding_period' => '1 month',
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
         $distributorMulti50->allow(
@@ -95,7 +95,7 @@ class PlanSeeder extends Seeder
         $distributorMulti200 = Plan::create([
             'title' => 'Multi200 DUR**',
             'role_id' => $role->getKey(),
-            'binding_period' => '1 month',
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
         $distributorMulti200->allow(
@@ -113,7 +113,7 @@ class PlanSeeder extends Seeder
         $distributorMulti200Plus = Plan::create([
             'title' => 'Multi200+ DUR**',
             'role_id' => $role->getKey(),
-            'binding_period' => '1 month',
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
         $distributorMulti200Plus->allow(
@@ -131,7 +131,7 @@ class PlanSeeder extends Seeder
         $publisherStandard = Plan::create([
             'title' => 'Standard',
             'role_id' => $publisher->getKey(),
-            'binding_period' => '1 month',
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
         $publisherStandard->allow(
@@ -154,7 +154,7 @@ class PlanSeeder extends Seeder
         $publisherProStandard = Plan::create([
             'title' => 'Pro-Standard',
             'role_id' => $publisher->getKey(),
-            'binding_period' => '1 month',
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
         $publisherProStandard->allow(
@@ -174,7 +174,7 @@ class PlanSeeder extends Seeder
         $publisherPro = Plan::create([
             'title' => 'Pro',
             'role_id' => $publisher->getKey(),
-            'binding_period' => '1 month',
+            'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
         $publisherPro->allow(

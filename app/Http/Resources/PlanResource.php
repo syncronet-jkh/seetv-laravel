@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use App\Models\Feature;
 use App\Models\Price;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Date;
+use function __;
+use function today;
 use function trans;
 
 class PlanResource extends JsonResource
@@ -22,7 +25,11 @@ class PlanResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'binding_period' => $this->binding_period,
+            'binding_period' => [
+                'days' => Date::parse($this->binding_period)->diffInDays(today()),
+                'raw' => $this->binding_period,
+                'formatted' => __('plan.binding_period.'.$this->binding_period, [], $locale)
+            ],
             'prices' => $this->whenLoaded('prices', function () use ($locale) {
                 return $this->prices->map(fn (Price $price) => [
                     'currency' => $price->currency,

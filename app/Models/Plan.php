@@ -16,6 +16,8 @@ use function is_numeric;
  */
 class Plan extends Model
 {
+    const BINDING_PERIOD_1_MONTH = '1 month';
+
     use HasTranslations, HasFactory;
 
     public $translatable = ['title'];

@@ -32,7 +32,7 @@ class PlanControllerTest extends TestCase
     {
         $publisherPlansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', 'Publisher'))->count();
 
-        $this->getJson('/api/Plans?filter[role]='.Role::PUBLISHER)
+        $this->getJson('/api/Plans?filter[role]='.Role::STREAMER)
             ->assertSuccessful()
             ->assertJsonCount($publisherPlansCount);
     }

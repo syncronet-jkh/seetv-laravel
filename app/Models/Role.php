@@ -21,7 +21,7 @@ class Role extends \Spatie\Permission\Models\Role
     protected static array $constCache = [];
 
     const VIEWER = 'Viewer';
-    const PUBLISHER = 'Publisher';
+    const STREAMER = 'Publisher';
     const DISTRIBUTOR = 'Distributor';
     const ADMIN = 'Admin';
 

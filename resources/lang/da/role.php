@@ -1,7 +1,7 @@
 <?php use App\Models\Role;
 
 return [
-    Role::PUBLISHER => 'Streamer',
+    Role::STREAMER => 'Streamer',
     Role::DISTRIBUTOR => 'Udgiver',
     Role::VIEWER => 'Seer'
 ];
