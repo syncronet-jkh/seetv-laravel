@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\PaymentGatewayManager;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(PaymentGatewayManager::class);
     }
 
     /**

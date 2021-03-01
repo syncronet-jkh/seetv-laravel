@@ -12,8 +12,8 @@ use function tap;
  * @package App\Models
  *
  * @method static static VIEWER()
+ * @method static static STREAMER()
  * @method static static PUBLISHER()
- * @method static static DISTRIBUTOR()
  * @method static static ADMIN()
  */
 class Role extends \Spatie\Permission\Models\Role
@@ -21,8 +21,8 @@ class Role extends \Spatie\Permission\Models\Role
     protected static array $constCache = [];
 
     const VIEWER = 'Viewer';
-    const STREAMER = 'Publisher';
     const DISTRIBUTOR = 'Distributor';
+    const PUBLISHER = 'Publisher';
     const ADMIN = 'Admin';
 
     public static function __callStatic($method, $parameters)

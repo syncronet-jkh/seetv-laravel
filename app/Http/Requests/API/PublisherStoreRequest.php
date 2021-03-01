@@ -27,7 +27,7 @@ class PublisherStoreRequest extends FormRequest
     public function authorize()
     {
         return $this->user()
-            && $this->user()->hasRole(Role::STREAMER);
+            && $this->user()->hasRole(Role::PUBLISHER);
     }
 
     public function plan(): Plan

@@ -22,7 +22,5 @@ class Price extends Model
             $this->currency,
             new CustomContext(Currencies::getFractionDigits($this->currency))
         );
-
-        // return money($this->amount, $this->currency, true);
     }
 }

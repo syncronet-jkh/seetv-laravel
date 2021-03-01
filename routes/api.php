@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ChannelController;
 use App\Http\Controllers\API\CSRFTokenController;
 use App\Http\Controllers\API\MunicipalityController;
 use App\Http\Controllers\API\PlanController;
+use App\Http\Controllers\API\PlanPurchaseController;
 use App\Http\Controllers\API\PublisherController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::post('Login', [LoginController::class, 'store']);
 Route::post('Register', [RegisterController::class, 'store']);
 Route::middleware('auth:api')->group(static function () {
     Route::get('User', [UserController::class, 'index']);
+
+    Route::post('Plans/{plan}/Purchase', [PlanPurchaseController::class, 'store']);
 
     Route::post('Publishers', [PublisherController::class, 'store']);
 });

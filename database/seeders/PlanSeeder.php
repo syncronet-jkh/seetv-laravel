@@ -17,8 +17,8 @@ class PlanSeeder extends Seeder
     public function run()
     {
         $viewer = Role::findByName(Role::VIEWER);
-        $distributor = Role::findByName(Role::DISTRIBUTOR);
-        $publisher = Role::findByName(Role::STREAMER);
+        $distributor = Role::findByName(Role::PUBLISHER);
+        $streamer = Role::findByName(Role::DISTRIBUTOR);
 
         $this->createFreeViewer($viewer);
 
@@ -30,11 +30,11 @@ class PlanSeeder extends Seeder
 
         $this->createDistributorMulti200Plus($distributor);
 
-        $this->createPublisherStandard($publisher);
+        $this->createStreamerStandard($streamer);
 
-        $this->createPublisherProStandard($publisher);
+        $this->createStreamerProStandard($streamer);
 
-        $this->createPublisherPro($publisher);
+        $this->createStreamerPro($streamer);
     }
 
     private function createFreeViewer($role): void
@@ -126,64 +126,64 @@ class PlanSeeder extends Seeder
         ]);
     }
 
-    private function createPublisherStandard($publisher): void
+    private function createStreamerStandard($streamer): void
     {
-        $publisherStandard = Plan::create([
+        $streamerStandard = Plan::create([
             'title' => 'Standard',
-            'role_id' => $publisher->getKey(),
+            'role_id' => $streamer->getKey(),
             'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
-        $publisherStandard->allow(
+        $streamerStandard->allow(
             Permission::FIVE_HOURS_PER_MONTH
         );
 
-        $publisherStandard->deny(
+        $streamerStandard->deny(
             Permission::EMBED_ON_OWN_WEBSITE,
             Permission::OPEN_FOR_OBS
         );
 
-        $publisherStandard->prices()->create([
+        $streamerStandard->prices()->create([
             'currency' => 'DKK',
             'amount' => 625
         ]);
     }
 
-    private function createPublisherProStandard($publisher): void
+    private function createStreamerProStandard($streamer): void
     {
-        $publisherProStandard = Plan::create([
+        $streamerProStandard = Plan::create([
             'title' => 'Pro-Standard',
-            'role_id' => $publisher->getKey(),
+            'role_id' => $streamer->getKey(),
             'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
-        $publisherProStandard->allow(
+        $streamerProStandard->allow(
             Permission::THIRTY_HOURS_PER_MONTH,
             Permission::EMBED_ON_OWN_WEBSITE,
             Permission::OPEN_FOR_OBS
         );
 
-        $publisherProStandard->prices()->create([
+        $streamerProStandard->prices()->create([
             'currency' => 'DKK',
             'amount' => 3125
         ]);
     }
 
-    private function createPublisherPro($publisher): void
+    private function createStreamerPro($streamer): void
     {
-        $publisherPro = Plan::create([
+        $streamerPro = Plan::create([
             'title' => 'Pro',
-            'role_id' => $publisher->getKey(),
+            'role_id' => $streamer->getKey(),
             'binding_period' => Plan::BINDING_PERIOD_1_MONTH,
         ]);
 
-        $publisherPro->allow(
+        $streamerPro->allow(
             Permission::STREAM_ALL_THE_TIME,
             Permission::EMBED_ON_OWN_WEBSITE,
             Permission::OPEN_FOR_OBS
         );
 
-        $publisherPro->prices()->create([
+        $streamerPro->prices()->create([
             'currency' => 'DKK',
             'amount' => 6250
         ]);

@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'paylike' => [
+        'app_id' => env('PAYLIKE_APP_ID'),
+        'merchant_id' => env('PAYLIKE_MERCHANT_ID')
+    ]
 ];

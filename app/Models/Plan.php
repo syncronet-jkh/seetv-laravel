@@ -6,12 +6,15 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use function data_get;
 use function is_numeric;
+use function is_object;
 
 /**
  * Class Plan
  * @package App\Models
  *
+ * @method static static whereRole($role)
  * @mixin Builder
  */
 class Plan extends Model
@@ -29,8 +32,14 @@ class Plan extends Model
         return static::query()->create($attributes);
     }
 
+    public function scopeWhereRole($query, $role)
+    {
+        $this->scopeRole($query, $role);
+    }
+
     public function scopeRole($query, $role)
     {
+        $role = data_get($role, 'id', $role);
         $column = is_numeric($role) ? 'id' : 'name';
 
         $query->whereHas('role', fn ($q) => $q->where($column, $role));
@@ -56,7 +65,7 @@ class Plan extends Model
 
     public function assignRoleAndPermissionsTo(User $user): User
     {
-        $user->assignRole($this->granted_role);
+        $user->assignRole($this->role);
 
         $user->givePermissionTo(
             $this->features()->enabled()->pluck('permission_id')

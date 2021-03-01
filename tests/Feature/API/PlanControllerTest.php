@@ -21,28 +21,28 @@ class PlanControllerTest extends TestCase
 
     public function test_it_lists_the_viewer_plans()
     {
-        $viewerPlansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', Role::VIEWER))->count();
+        $plansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', Role::VIEWER))->count();
 
         $this->getJson('/api/Plans?filter[role]='.Role::VIEWER)
             ->assertSuccessful()
-            ->assertJsonCount($viewerPlansCount);
+            ->assertJsonCount($plansCount);
     }
 
     public function test_it_lists_the_publisher_plans()
     {
-        $publisherPlansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', 'Publisher'))->count();
+        $plansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', 'Publisher'))->count();
 
-        $this->getJson('/api/Plans?filter[role]='.Role::STREAMER)
+        $this->getJson('/api/Plans?filter[role]='.Role::PUBLISHER)
             ->assertSuccessful()
-            ->assertJsonCount($publisherPlansCount);
+            ->assertJsonCount($plansCount);
     }
 
     public function test_it_lists_the_distributor_plans()
     {
-        $streamerPlansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', Role::DISTRIBUTOR))->count();
+        $plansCount = Plan::query()->whereHas('role', fn ($role) => $role->where('name', Role::DISTRIBUTOR))->count();
 
         $this->getJson('/api/Plans?filter[role]='.Role::DISTRIBUTOR)
             ->assertSuccessful()
-            ->assertJsonCount($streamerPlansCount);
+            ->assertJsonCount($plansCount);
     }
 }

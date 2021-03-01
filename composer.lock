@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82e7c62ce4faba98ea9ef653a1a3410e",
+    "content-hash": "8a16e67327e7c142966b052a6a008a27",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -2287,6 +2287,50 @@
             "time": "2020-11-07T02:01:34+00:00"
         },
         {
+            "name": "paylike/php-api",
+            "version": "1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paylike/php-api.git",
+                "reference": "bcdf66a17ff3c595952d02de250264e3d2cb307d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paylike/php-api/zipball/bcdf66a17ff3c595952d02de250264e3d2cb307d",
+                "reference": "bcdf66a17ff3c595952d02de250264e3d2cb307d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Paylike\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ionut Calara",
+                    "email": "ionut.calara@gmail.com"
+                }
+            ],
+            "description": "PHP SDK to communicate with the Paylike HTTP API",
+            "support": {
+                "issues": "https://github.com/paylike/php-api/issues",
+                "source": "https://github.com/paylike/php-api/tree/master"
+            },
+            "time": "2020-09-08T09:05:27+00:00"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.7.5",
             "source": {
@@ -3016,6 +3060,65 @@
                 }
             ],
             "time": "2021-02-04T16:00:00+00:00"
+        },
+        {
+            "name": "spatie/data-transfer-object",
+            "version": "2.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/data-transfer-object.git",
+                "reference": "2625a59566804ec63f01947d85947336237cbda6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/2625a59566804ec63f01947d85947336237cbda6",
+                "reference": "2625a59566804ec63f01947d85947336237cbda6",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0"
+            },
+            "suggest": {
+                "phpstan/phpstan": "Take advantage of checkUninitializedProperties with \\Spatie\\DataTransferObject\\PHPstan\\PropertiesAreAlwaysInitializedExtension"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\DataTransferObject\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Data transfer objects with batteries included",
+            "homepage": "https://github.com/spatie/data-transfer-object",
+            "keywords": [
+                "data-transfer-object",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/data-transfer-object/issues",
+                "source": "https://github.com/spatie/data-transfer-object/tree/2.8.3"
+            },
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/spatie",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2021-02-12T08:46:52+00:00"
         },
         {
             "name": "spatie/laravel-permission",
