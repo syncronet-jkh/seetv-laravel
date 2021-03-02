@@ -17,8 +17,8 @@ class PlanSeeder extends Seeder
     public function run()
     {
         $viewer = Role::findByName(Role::VIEWER);
-        $distributor = Role::findByName(Role::PUBLISHER);
-        $streamer = Role::findByName(Role::DISTRIBUTOR);
+        $distributor = Role::findByName(Role::DISTRIBUTOR);
+        $streamer = Role::findByName(Role::PUBLISHER);
 
         $this->createFreeViewer($viewer);
 

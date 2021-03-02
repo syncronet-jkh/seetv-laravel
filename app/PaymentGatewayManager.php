@@ -3,8 +3,10 @@
 namespace App;
 
 use App\Services\PaylikePaymentGateway;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 use Paylike\Paylike;
 use function collect;
 use function get_class_methods;
@@ -12,6 +14,9 @@ use function str_replace;
 
 class PaymentGatewayManager extends Manager
 {
+    protected static ?Collection $optionsCache = null;
+    protected string $defaultDriver = 'Paylike';
+
     /**
      * The available driver options
      *
@@ -19,7 +24,11 @@ class PaymentGatewayManager extends Manager
      */
     public function options()
     {
-        return collect(get_class_methods($this))
+        if (self::$optionsCache) {
+            return self::$optionsCache;
+        }
+
+        return self::$optionsCache = collect(get_class_methods($this))
             ->filter(fn (string $method) => $method !== 'createDriver' && Str::is('create*Driver', $method))
             ->map(fn (string $method) => str_replace('Driver', '', Str::after($method, 'create')))
             ->values()
@@ -28,7 +37,18 @@ class PaymentGatewayManager extends Manager
 
     public function getDefaultDriver()
     {
-        return 'paylike';
+        return $this->defaultDriver;
+    }
+
+    public function setDefaultDriver(string $driver)
+    {
+        if (!$this->options()->contains($driver)) {
+            throw new InvalidArgumentException("{$driver} not supported.");
+        }
+
+        $this->defaultDriver = $driver;
+
+        return $this->defaultDriver;
     }
 
     public function createPaylikeDriver()

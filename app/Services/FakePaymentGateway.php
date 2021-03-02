@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\__Fakes__;
+namespace App\Services;
 
 use App\Contracts\PaymentGateway;
 use App\DataTransferObjects\CreditCardData;
@@ -9,7 +9,6 @@ use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Testing\Assert;
 use Ramsey\Uuid\Uuid;
-use Spatie\DataTransferObject\DataTransferObject;
 use function now;
 
 class FakePaymentGateway implements PaymentGateway

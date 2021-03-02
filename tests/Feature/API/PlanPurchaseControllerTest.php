@@ -2,19 +2,15 @@
 
 namespace Tests\Feature\API;
 
+use App\Facades\PaymentGateway;
 use App\Models\Payment;
 use App\Models\Plan;
 use App\Models\Role;
 use App\Models\User;
-use App\PaymentGatewayManager;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\PlanSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\DB;
-use Tests\__Fakes__\FakePaymentGateway;
 use Tests\TestCase;
-use function dd;
 
 class PlanPurchaseControllerTest extends TestCase
 {
@@ -22,17 +18,12 @@ class PlanPurchaseControllerTest extends TestCase
 
     public function testASuccessfulPaymentGrantsTheCurrentUserTheRoleAndPermissionsFromThePlan()
     {
-        $fakePaymentGateway = new FakePaymentGateway();
-        $this->app
-            ->make(PaymentGatewayManager::class)
-            ->extend('fake', fn () => $fakePaymentGateway);
-
         $this->seed([
             PermissionSeeder::class,
             PlanSeeder::class,
         ]);
 
-        $plan = Plan::whereRole(Role::DISTRIBUTOR)
+        $plan = Plan::whereRole(Role::PUBLISHER)
             ->where('title->en', 'Pro')
             ->with('prices')
             ->firstOrFail();
@@ -50,7 +41,7 @@ class PlanPurchaseControllerTest extends TestCase
             ])
             ->assertSuccessful();
 
-        $fakePaymentGateway->assertCaptured(
+        PaymentGateway::driver('fake')->assertCaptured(
             fn (Payment $payment, string $authorizeId) =>$authorizeId === '1234-testing'
         );
 

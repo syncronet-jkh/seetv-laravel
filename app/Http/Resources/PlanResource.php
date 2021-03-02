@@ -34,7 +34,7 @@ class PlanResource extends JsonResource
                 return $this->prices->map(fn (Price $price) => [
                     'currency' => $price->currency,
                     'amount' => [
-                        'raw' => $price->amount,
+                        'minor' => $price->toMoney()->getMinorAmount()->abs()->toInt(),
                         'formatted' => $price->toMoney()->formatTo($locale)
                     ]
                 ]);
