@@ -31,7 +31,7 @@ class PaymentGatewayManager extends Manager
         return 'paylike';
     }
 
-    public function getPaylikeDriver()
+    public function createPaylikeDriver()
     {
         return new PaylikePaymentGateway(
           new Paylike($this->config->get('services.paylike.app_id')),
