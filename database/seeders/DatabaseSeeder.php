@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             PlanSeeder::class,
             RegionsTableSeeder::class,
             MunicipalitiesTableSeeder::class,
-            PostalCodesTableSeeder::class
+            PostalCodesTableSeeder::class,
+            SourceProviderSeeder::class
         ]);
     }
 }
