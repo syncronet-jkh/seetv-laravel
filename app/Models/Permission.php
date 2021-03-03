@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Concerns\HasCachedConstants;
 use Illuminate\Support\Collection;
 use ReflectionClass;
 use function __;
@@ -10,6 +11,8 @@ use function trans;
 
 class Permission extends \Spatie\Permission\Models\Permission
 {
+    use HasCachedConstants;
+
     const AD_FREE = 'Ad free';
     const TV_GUIDE = 'TV Guide';
     const VIEW_CONTENT = 'View content';
@@ -21,13 +24,6 @@ class Permission extends \Spatie\Permission\Models\Permission
     const STREAM_ALL_THE_TIME = 'Stream all the time';
     const EMBED_ON_OWN_WEBSITE = 'Embed (on own website)';
     const OPEN_FOR_OBS = 'Open for OBS';
-
-    public static function getConstants(): array
-    {
-        $reflection = new ReflectionClass(static::class);
-
-        return $reflection->getConstants();
-    }
 
     public static function resolve($permission): \Spatie\Permission\Contracts\Permission
     {
@@ -44,6 +40,11 @@ class Permission extends \Spatie\Permission\Models\Permission
             ->flatten()
             ->filter()
             ->map(fn ($permission) => static::resolve($permission));
+    }
+
+    public function getLocaleNameAttribute()
+    {
+        return $this->toLocaleName();
     }
 
     public function toLocaleName($locale = null)

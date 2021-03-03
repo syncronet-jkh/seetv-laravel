@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use ReflectionClass;
+use App\Concerns\HasCachedConstants;
 use function __;
 use function array_key_exists;
-use function tap;
 
 /**
  * Class Role
@@ -18,7 +17,7 @@ use function tap;
  */
 class Role extends \Spatie\Permission\Models\Role
 {
-    protected static array $constCache = [];
+    use HasCachedConstants;
 
     const VIEWER = 'Viewer';
     const DISTRIBUTOR = 'Distributor';
@@ -36,18 +35,9 @@ class Role extends \Spatie\Permission\Models\Role
         return parent::__callStatic($method, $parameters);
     }
 
-    public static function getConstants(): array
+    public function getLocaleNameAttribute()
     {
-        if (array_key_exists(static::class, static::$constCache)) {
-            return static::$constCache[static::class];
-        }
-
-        $reflection = new ReflectionClass(static::class);
-
-        return tap(
-            $reflection->getConstants(),
-            fn (array $constants) => static::$constCache[static::class] = $constants
-        );
+        return $this->toLocaleName();
     }
 
     public function toLocaleName($locale = null)
