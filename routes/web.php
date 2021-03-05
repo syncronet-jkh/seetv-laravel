@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CSRFTokenController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/api/csrf-token', [CSRFTokenController::class, 'index']);
 Route::view('/', 'welcome');
