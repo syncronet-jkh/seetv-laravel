@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\PublisherStoreRequest;
 use App\Http\Resources\PublisherResource;
+use App\Models\ChannelMember;
 use App\Models\Publisher;
 
 class PublisherController
@@ -12,6 +13,7 @@ class PublisherController
     {
         /** @var Publisher $publisher */
         $publisher = $request->user()->publishers()->create([
+            'user_id' => $request->user()->id,
             'name' => $request->input('name'),
             'plan_id' => $request->plan()->getKey()
         ]);
@@ -28,9 +30,16 @@ class PublisherController
             $request->phones()
         );
 
-        $publisher->channels()->saveMany(
+        $channels = $publisher->channels()->saveMany(
             $request->channels()
         );
+
+        foreach ($channels as $channel) {
+            ChannelMember::query()->create([
+                'channel_id' => $channel->id,
+                'user_id' => $request->user()->id
+            ]);
+        }
 
         $publisher->load('addresses', 'emails', 'phones', 'channels');
 

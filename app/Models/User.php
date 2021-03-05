@@ -45,11 +45,15 @@ class User extends Authenticatable
 
     public function publishers()
     {
-        return $this->hasMany(Publisher::class);
+        return $this
+            ->belongsToMany(Publisher::class, PublisherMembership::class)
+            ->using(PublisherMembership::class);
     }
 
     public function channels()
     {
-        return $this->hasMany(Channel::class);
+        return $this
+            ->belongsToMany(Channel::class, ChannelMember::class)
+            ->using(ChannelMember::class);
     }
 }
