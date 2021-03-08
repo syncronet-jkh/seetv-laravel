@@ -19,14 +19,16 @@ class ChannelControllerTest extends TestCase
     {
         Date::setTestNow('2021-02-26 14:47:10');
 
-        $municipality = Municipality::factory()->create();
+        $municipality = Municipality::withoutSyncingToSearch(
+            fn () => Municipality::factory()->create()
+        );
 
         /** @var Channel $expectedChannel */
         $expectedChannel = Channel::factory()->for($municipality)->create(['name' => 'expected channel']);
         $channelMember = ChannelMember::factory()->create(['channel_id' => $expectedChannel->getKey()]);
 
         $expectedBroadcast = $expectedChannel->broadcasts()->create([
-           'channel_member_id' => $channelMember->getKey(),
+            'channel_member_id' => $channelMember->getKey(),
             'starts_at' => Date::now()->addMinutes(10),
             'duration' => 480,
             'title' => 'hello',

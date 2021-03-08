@@ -24,6 +24,7 @@ class PublisherControllerTest extends TestCase
 
     public function test_can_create_a_publisher()
     {
+        /** @var User $user */
         $user = User::factory()->create();
         $publisherRole = Role::PUBLISHER();
         $user->assignRole($publisherRole);
@@ -90,6 +91,12 @@ class PublisherControllerTest extends TestCase
         $this->assertCount(1, $publisher->channels);
         $this->assertTrue(
             $publisher->channels->contains(fn ($c) => $c->name === 'testings channel' && $c->municipality->is($municipality))
+        );
+
+        $user->load('channels');
+        $this->assertCount(1, $user->channels);
+        $this->assertTrue(
+            $user->channels->contains(fn ($c) => $c->publisher->is($publisher))
         );
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use function app;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,7 +19,12 @@ class DatabaseSeeder extends Seeder
             PlanSeeder::class,
             RegionsTableSeeder::class,
             MunicipalitiesTableSeeder::class,
-            PostalCodesTableSeeder::class
+            PostalCodesTableSeeder::class,
+            SourceProviderSeeder::class
         ]);
+
+        if (app()->environment('local')) {
+            $this->call(TestingUsersSeeder::class);
+        }
     }
 }

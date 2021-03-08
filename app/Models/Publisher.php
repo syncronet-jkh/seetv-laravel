@@ -35,4 +35,11 @@ class Publisher extends Model
     {
         return $this->hasMany(Channel::class);
     }
+
+    public function members()
+    {
+        return $this
+            ->belongsToMany(User::class, PublisherMembership::class)
+            ->using(PublisherMembership::class);
+    }
 }

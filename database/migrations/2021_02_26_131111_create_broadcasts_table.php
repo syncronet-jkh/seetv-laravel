@@ -18,7 +18,8 @@ class CreateBroadcastsTable extends Migration
         Schema::create('broadcasts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Channel::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(ChannelMember::class)->constrained();
+            $table->unsignedBigInteger('channel_member_id');
+            $table->foreign('channel_member_id')->references('id')->on('channel_members');
             $table->timestamp('starts_at');
             $table->integer('duration')->comment('Duration span in seconds');
             $table->string('title');

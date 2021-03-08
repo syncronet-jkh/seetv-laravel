@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('csrf-token', [CSRFTokenController::class, 'index']);
-
 Route::get('Plans', [PlanController::class, 'index']);
 Route::get('Municipalities', [MunicipalityController::class, 'index']);
 Route::get('Municipalities/{municipality}/Channels', [ChannelController::class, 'index']);

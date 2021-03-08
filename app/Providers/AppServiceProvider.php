@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\PaymentGatewayManager;
 use App\Services\FakePaymentGateway;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\ParallelTesting;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         JsonResource::withoutWrapping();
+
+        ParallelTesting::setUpTestDatabase(function ($database, $token) {
+            Artisan::call('db:seed');
+        });
     }
 }
