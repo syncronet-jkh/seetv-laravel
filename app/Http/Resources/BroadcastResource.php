@@ -23,6 +23,10 @@ class BroadcastResource extends JsonResource
             'duration' => $this->duration,
             'title' => $this->title,
             'description' => $this->description,
+
+            // Backwards compatibility
+            'stream_url' => $this->channel->stream_url,
+            'ingest_url' => $this->channel->ingest_url
         ];
     }
 }

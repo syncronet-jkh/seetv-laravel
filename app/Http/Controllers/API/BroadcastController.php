@@ -15,7 +15,7 @@ class BroadcastController extends Controller
     {
         /** @var Broadcast $broadcast */
         $broadcast = $request->channel()->broadcasts()->make($request->validated());
-        //$broadcast->setRelation('channel', $request->channel());
+        $broadcast->setRelation('channel', $request->channel());
         $broadcast->channelMember()->associate($request->channelMember());
         $broadcast->saveOrFail();
 

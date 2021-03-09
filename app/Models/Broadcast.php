@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -43,9 +44,9 @@ class Broadcast extends Model
         $query->where('starts_at', '>=', $datetime->setSeconds(0)->toDateTimeString());
     }
 
-    public function getDurationAttribute()
+    public function getDurationAttribute(): int
     {
-        return $this->starts_at->diff($this->ends_at);
+        return $this->starts_at->diffInSeconds($this->ends_at);
     }
 
     public function channelMember()
