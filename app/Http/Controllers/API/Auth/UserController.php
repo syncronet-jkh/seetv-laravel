@@ -10,7 +10,7 @@ class UserController
     public function index()
     {
         return new UserResource(
-            Auth::guard('api')->user()->load('roles', 'publishers', 'channels', 'channels.publisher')
+            Auth::guard('api')->user()->load('roles', 'publishers', 'publishers.channels')
         );
     }
 }
