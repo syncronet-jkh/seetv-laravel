@@ -6,6 +6,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 
 /**
@@ -15,6 +16,9 @@ use Illuminate\Support\Facades\Date;
  *
  * @method static static startingSoon()
  * @method static static startingAt($datetime)
+ *
+ * @property Carbon $starts_at
+ * @property Carbon $ends_at
  */
 class Broadcast extends Model
 {
@@ -41,12 +45,20 @@ class Broadcast extends Model
     {
         $datetime = Date::parse($datetime);
 
-        $query->where('starts_at', '>=', $datetime->setSeconds(0)->toDateTimeString());
+        $query->where(function ($query) use ($datetime) {
+            $query
+                ->where('starts_at', '>=', $datetime->setSeconds(0)->toDateTimeString())
+                ->where('starts_at', '<=', $datetime->setSeconds(59)->toDateTimeString());
+        });
     }
 
-    public function getDurationAttribute(): int
+    public function getDurationAttribute(): array
     {
-        return $this->starts_at->diffInSeconds($this->ends_at);
+        return [
+            'hours' => $this->starts_at->diffInRealHours($this->ends_at),
+            'minutes' => $this->starts_at->diffInRealMinutes($this->ends_at),
+            'seconds' => $this->starts_at->diffInRealSeconds($this->ends_at)
+        ];
     }
 
     public function channelMember()
@@ -56,6 +68,6 @@ class Broadcast extends Model
 
     public function channel()
     {
-        return $this->hasOneThrough(Channel::class, ChannelMember::class);
+        return $this->belongsTo(Channel::class);
     }
 }

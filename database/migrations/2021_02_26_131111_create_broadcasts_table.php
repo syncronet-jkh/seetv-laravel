@@ -26,7 +26,7 @@ class CreateBroadcastsTable extends Migration
             $table->string('description');
             $table->timestamps();
 
-            $table->index(['starts_at']);
+            $table->index(['starts_at', 'ends_at']);
         });
     }
 

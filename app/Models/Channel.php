@@ -94,6 +94,9 @@ class Channel extends Model
 
     public function hasOverlappingBroadcasts(Broadcast $broadcast): bool
     {
-        return $this->broadcasts()->startingAt($broadcast->starts_at)->exists();
+        return $this->broadcasts()
+            ->where('starts_at', '>=', $broadcast->starts_at)
+            ->where('ends_at', '<=', $broadcast->ends_at)
+            ->exists();
     }
 }

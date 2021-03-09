@@ -26,6 +26,7 @@ class MunicipalityChannelsController
                 ->channels()
                 ->with([
                     'broadcasts' => fn ($query) => $query->whereDate('starts_at', $date)->latest('starts_at'),
+                    'broadcasts.channel',
                     'publisher'
                 ])
                 ->whereHas('broadcasts', fn ($query) => $query->whereDate('starts_at', $date))
