@@ -39,7 +39,7 @@ class Broadcast extends Model
 
     public function scopeStartingAt($query, $datetime)
     {
-        $datetime = Date::make($datetime);
+        $datetime = Date::parse($datetime);
 
         $query->where('starts_at', '>=', $datetime->setSeconds(0)->toDateTimeString());
     }

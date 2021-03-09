@@ -15,6 +15,7 @@ class ChannelResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'stream_url' => $this->stream_url,
             'ingest_url' => $this->ingest_url,
