@@ -30,11 +30,9 @@ class ChannelControllerTest extends TestCase
         $expectedBroadcast = $expectedChannel->broadcasts()->create([
             'channel_member_id' => $channelMember->getKey(),
             'starts_at' => Date::now()->addMinutes(10),
-            'duration' => 480,
+            'ends_at' => Date::now()->addMinutes(18),
             'title' => 'hello',
             'description' => 'hello darkness my old friend',
-            'ingestURL' => 'rtmp://rtmp.seetv.dk/show/hello',
-            'streamURL' => 'https://rtmp.seetv.dk/hls/hello.m3u8'
         ]);
 
         $unexpectedChannel = Channel::factory()->for($municipality)->create(['name' => 'unexpected channel']);

@@ -12,6 +12,7 @@ use App\Models\Publisher;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use function array_map;
 use function once;
@@ -26,8 +27,7 @@ class PublisherStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()
-            && $this->user()->hasRole(Role::PUBLISHER);
+        return Gate::forUser($this->user())->allows('create', Publisher::class);
     }
 
     public function plan(): Plan

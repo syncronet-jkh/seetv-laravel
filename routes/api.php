@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\UserController;
+use App\Http\Controllers\API\BroadcastController;
 use App\Http\Controllers\API\ChannelController;
 use App\Http\Controllers\API\CSRFTokenController;
 use App\Http\Controllers\API\MunicipalityController;
@@ -34,4 +35,6 @@ Route::middleware('auth:api')->group(static function () {
     Route::post('Plans/{plan}/Purchase', [PlanPurchaseController::class, 'store']);
 
     Route::post('Publishers', [PublisherController::class, 'store']);
+
+    Route::post('Channels/{channel}/Broadcasts', [BroadcastController::class, 'store']);
 });
