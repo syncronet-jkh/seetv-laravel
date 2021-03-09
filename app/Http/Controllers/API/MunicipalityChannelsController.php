@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ChannelController
+class MunicipalityChannelsController
 {
     public function index(Municipality $municipality, Request $request)
     {

@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
-class ChannelControllerTest extends TestCase
+class MunicipalityChannelsControllerTest extends TestCase
 {
     use RefreshDatabase;
 
