@@ -21,7 +21,7 @@ class CreateBroadcastsTable extends Migration
             $table->unsignedBigInteger('channel_member_id');
             $table->foreign('channel_member_id')->references('id')->on('channel_members');
             $table->timestamp('starts_at');
-            $table->timestamp('ends_at');
+            $table->timestamp('ends_at')->nullable();
             $table->string('title');
             $table->string('description');
             $table->timestamps();
