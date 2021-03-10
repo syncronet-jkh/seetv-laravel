@@ -14,6 +14,16 @@ class ChannelResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'stream_url' => $this->stream_url,
+            'ingest_url' => $this->ingest_url,
+            'plan' => $this->whenLoaded('plan', fn () => new PlanResource($this->plan)),
+            'user' => $this->whenLoaded('user', fn () => new UserResource($this->user)),
+            'publisher' => $this->whenLoaded('publisher', fn () => new PublisherResource($this->publisher)),
+            'municipality' => $this->whenLoaded('municipality', fn () => new MunicipalityResource($this->municipality)),
+            'broadcasts' => $this->whenLoaded('broadcasts', fn () => BroadcastResource::collection($this->broadcasts))
+        ];
     }
 }

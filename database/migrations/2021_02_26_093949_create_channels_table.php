@@ -23,6 +23,7 @@ class CreateChannelsTable extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Publisher::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Municipality::class)->constrained();
+            $table->string('stream_key');
             $table->string('name');
             $table->timestamps();
         });

@@ -21,12 +21,12 @@ class CreateBroadcastsTable extends Migration
             $table->unsignedBigInteger('channel_member_id');
             $table->foreign('channel_member_id')->references('id')->on('channel_members');
             $table->timestamp('starts_at');
-            $table->integer('duration')->comment('Duration span in seconds');
+            $table->timestamp('ends_at');
             $table->string('title');
             $table->string('description');
-            $table->string('ingestURL');
-            $table->string('streamURL');
             $table->timestamps();
+
+            $table->index(['starts_at', 'ends_at']);
         });
     }
 

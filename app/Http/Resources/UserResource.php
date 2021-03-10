@@ -6,6 +6,8 @@ use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
+use function substr;
 
 /**
  * Class UserResource
@@ -24,6 +26,15 @@ class UserResource extends JsonResource
     {
         return [
             // 'id' => $this->id,
+            'initials' => Str::contains($this->username, ' ')
+                ? Str::of($this->username)
+                    ->snake(' ')
+                    ->title()
+                    ->explode(' ')
+                    ->map(fn ($str) => substr($str, 0, 1))
+                    ->join('')
+                : substr($this->username, 0, 2),
+
             'username' => $this->username,
             'email' => $this->email,
 

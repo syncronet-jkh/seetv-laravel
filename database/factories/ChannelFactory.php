@@ -26,6 +26,7 @@ class ChannelFactory extends Factory
     public function definition()
     {
         return [
+            'stream_key' => $this->faker->uuid,
             'plan_id' => null,
             'publisher_id' => Publisher::factory(),
             'user_id' => User::factory(),

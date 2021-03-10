@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class ChannelController
+class MunicipalityChannelsController
 {
     public function index(Municipality $municipality, Request $request)
     {
@@ -26,6 +26,7 @@ class ChannelController
                 ->channels()
                 ->with([
                     'broadcasts' => fn ($query) => $query->whereDate('starts_at', $date)->latest('starts_at'),
+                    'broadcasts.channel',
                     'publisher'
                 ])
                 ->whereHas('broadcasts', fn ($query) => $query->whereDate('starts_at', $date))

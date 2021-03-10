@@ -14,6 +14,15 @@ class PublisherResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'name' => $this->name,
+            'user' => $this->whenLoaded('user', fn () => new UserResource($this->user)),
+            'plan' => $this->whenLoaded('plan', fn () => new PlanResource($this->plan)),
+            'addresses' => $this->whenLoaded('addresses'),
+            'emails' => $this->whenLoaded('emails'),
+            'phones' => $this->whenLoaded('phones'),
+            'channels' => $this->whenLoaded('channels', fn () => ChannelResource::collection($this->channels)),
+            'members' => $this->whenLoaded('members', fn () => ChannelMemberResource::collection($this->members)),
+        ];
     }
 }

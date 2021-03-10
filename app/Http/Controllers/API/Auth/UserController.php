@@ -11,13 +11,12 @@ class UserController
     {
         return new UserResource(
             Auth::guard('api')->user()->load(
-                'roles', 
-                'publishers', 
-                'publishers.phones', 
-                'publishers.emails', 
-                'publishers.addresses', 
-                'channels', 
-                'channels.publisher'
+                'roles',
+                'publishers',
+                'publishers.channels',
+                'publishers.phones',
+                'publishers.emails',
+                'publishers.addresses',
             )
         );
     }
