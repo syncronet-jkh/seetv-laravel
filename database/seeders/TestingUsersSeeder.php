@@ -28,7 +28,7 @@ class TestingUsersSeeder extends Seeder
             /** @var User $user */
             $user = User::factory()->create([
                 'username' => $username,
-                'email' => $username.'@syncronet.dk'
+                'email' => $username . '@syncronet.dk'
             ]);
 
             $user->assignRole(Role::ADMIN);
@@ -36,7 +36,7 @@ class TestingUsersSeeder extends Seeder
             Plan::with('role', 'features')->each(function (Plan $plan) use ($user) {
                 $plan->assignRoleAndPermissionsTo($user);
 
-                $municipality = Municipality::query()->inRandomOrder()->firstOrFail();
+                $municipality = Municipality::first();
 
                 switch ($plan->role->name) {
                     case Role::PUBLISHER:
