@@ -23,5 +23,8 @@
         "vue-meta": "^2.4.0",
         "vue-template-compiler": "^2.6.12",
         "vuetify": "^2.4.6"
+    },
+    "dependencies": {
+        "cross-env": "^7.0.3"
     }
 }
