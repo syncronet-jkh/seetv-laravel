@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Auth\LoginController;
 use App\Http\Controllers\API\Auth\RegisterController;
 use App\Http\Controllers\API\Auth\UserController;
 use App\Http\Controllers\API\BroadcastController;
+use App\Http\Controllers\API\ChannelBroadcastsController;
 use App\Http\Controllers\API\MunicipalityChannelsController;
 use App\Http\Controllers\API\MunicipalityController;
 use App\Http\Controllers\API\PlanController;
@@ -37,3 +38,6 @@ Route::middleware('auth:api')->group(static function () {
 
     Route::post('Channels/{channel}/Broadcasts', [BroadcastController::class, 'store']);
 });
+
+Route::get('Channels/{channel}/Broadcasts/Planned', [ChannelBroadcastsController::class, 'planned']);
+Route::get('Channels/{channel}/Broadcasts/History', [ChannelBroadcastsController::class, 'historical']);

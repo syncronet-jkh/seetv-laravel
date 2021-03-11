@@ -2,14 +2,24 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Publisher extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    protected static function booted()
+    {
+        parent::booted();
+
+        static::saving(static function (Publisher $publisher) {
+            $publisher->slug = Str::slug($publisher->name);
+        });
+    }
 
     public function plan()
     {

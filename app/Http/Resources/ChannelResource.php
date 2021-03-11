@@ -23,7 +23,8 @@ class ChannelResource extends JsonResource
             'user' => $this->whenLoaded('user', fn () => new UserResource($this->user)),
             'publisher' => $this->whenLoaded('publisher', fn () => new PublisherResource($this->publisher)),
             'municipality' => $this->whenLoaded('municipality', fn () => new MunicipalityResource($this->municipality)),
-            'broadcasts' => $this->whenLoaded('broadcasts', fn () => BroadcastResource::collection($this->broadcasts))
+            'broadcasts' => $this->whenLoaded('broadcasts', fn () => BroadcastResource::collection($this->broadcasts)),
+            'updated_at' => $this->updated_at->toDateTimeString()
         ];
     }
 }

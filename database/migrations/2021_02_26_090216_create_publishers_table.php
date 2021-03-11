@@ -20,6 +20,7 @@ class CreatePublishersTable extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Plan::class)->constrained();
+            $table->string('slug');
             $table->string('name');
             $table->timestamps();
         });
