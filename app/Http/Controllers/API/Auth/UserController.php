@@ -13,6 +13,7 @@ class UserController
             Auth::guard('api')->user()->load(
                 'roles',
                 'publishers',
+                'publishers.plan',
                 'publishers.channels',
                 'publishers.phones',
                 'publishers.emails',

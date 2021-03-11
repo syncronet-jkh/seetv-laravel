@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Date;
  *
  * @method static static startingSoon()
  * @method static static startingAt($datetime)
- *
+ * @method static static planned()
+ * @method static static historical()
+ * 
  * @property Carbon $starts_at
  * @property Carbon $ends_at
  */
@@ -50,6 +52,16 @@ class Broadcast extends Model
                 ->where('starts_at', '>=', $datetime->setSeconds(0)->toDateTimeString())
                 ->where('starts_at', '<=', $datetime->setSeconds(59)->toDateTimeString());
         });
+    }
+
+    public function scopePlanned($query)
+    {
+        $query->where('starts_at', '>=', now()->toDateTimeString());
+    }
+
+    public function scopeHistorical($query)
+    {
+        $query->where('starts_at', '<=', now()->toDateTimeString());
     }
 
     public function getDurationAttribute(): array
