@@ -6,7 +6,6 @@ use App\Http\Controllers\API\Auth\UserController;
 use App\Http\Controllers\API\BroadcastController;
 use App\Http\Controllers\API\ChannelBroadcastsController;
 use App\Http\Controllers\API\MunicipalityChannelsController;
-use App\Http\Controllers\API\CSRFTokenController;
 use App\Http\Controllers\API\MunicipalityController;
 use App\Http\Controllers\API\PlanController;
 use App\Http\Controllers\API\PlanPurchaseController;

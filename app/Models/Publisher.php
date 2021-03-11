@@ -52,4 +52,14 @@ class Publisher extends Model
             ->belongsToMany(User::class, PublisherMembership::class)
             ->using(PublisherMembership::class);
     }
+
+    public function status()
+    {
+        return $this->hasOne(PublisherStatus::class)->latest();
+    }
+
+    public function statuses()
+    {
+        return $this->hasMany(PublisherStatus::class);
+    }
 }
