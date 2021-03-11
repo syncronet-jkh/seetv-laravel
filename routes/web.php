@@ -1,7 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\CSRFTokenController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TermController;
+use App\Http\Controllers\WelcomeController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/api/csrf-token', [CSRFTokenController::class, 'index']);
-Route::view('/', 'welcome');
+Route::get('/', [WelcomeController::class, 'show']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'show']);
+    Route::resource('/terms', TermController::class);
+});
+
+require __DIR__.'/auth.php';
