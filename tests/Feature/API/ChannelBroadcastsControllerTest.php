@@ -32,7 +32,7 @@ class ChannelBroadcastsControllerTest extends TestCase
 
         $this->getJson("/api/Channels/{$channel->id}/Broadcasts/Planned")
             ->assertSuccessful()
-            ->assertJsonCount(1)
+            ->assertJsonCount(1, 'data')
             ->assertSee('jimmys shop');
     }
 
