@@ -34,6 +34,9 @@ class UserResource extends JsonResource
             'username' => $this->username,
             'email' => $this->email,
 
+            'current_publisher' => $this->whenLoaded('currentPublisher', fn () => new PublisherResource($this->currentPublisher)),
+            'current_channel' => $this->whenLoaded('currentChannel', fn () => new ChannelResource($this->currentChannel)),
+
             'channels' => $this->whenLoaded('channels', fn () => ChannelResource::collection($this->channels)),
             'publishers' => $this->whenLoaded('publishers', fn () => PublisherResource::collection($this->publishers)),
 
