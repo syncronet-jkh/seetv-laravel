@@ -16,6 +16,8 @@ class BroadcastResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
+
             'channel' => $this->whenLoaded('channel', fn () => new ChannelResource($this->channel)),
             'channel_member' => $this->whenLoaded('channelMember', fn () => new ChannelMemberResource($this->channelMember)),
             'starts_at' => $this->starts_at->toDateTimeString(),
