@@ -12,6 +12,8 @@ class UserController
         return new UserResource(
             Auth::guard('api')->user()->load(
                 'roles',
+                'currentPublisher',
+                'currentChannel',
                 'publishers',
                 'publishers.plan',
                 'publishers.channels',

@@ -21,6 +21,11 @@ class Publisher extends Model
         });
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function plan()
     {
         return $this->belongsTo(Plan::class);
@@ -53,13 +58,21 @@ class Publisher extends Model
             ->using(PublisherMembership::class);
     }
 
-    public function status()
+    public function addMember(User $user)
     {
-        return $this->hasOne(PublisherStatus::class)->latest();
+        return PublisherMembership::create([
+            'publisher_id' => $this->id,
+            'user_id' => $user->id
+        ]);
     }
 
-    public function statuses()
+    public function hasMember(User $user): bool
     {
-        return $this->hasMany(PublisherStatus::class);
+        return $this->members()->where('user_id', $user->getKey())->exists();
+    }
+
+    public function hasChannel(Channel $channel): bool
+    {
+        return $this->channels()->whereKey($channel->getKey())->exists();
     }
 }

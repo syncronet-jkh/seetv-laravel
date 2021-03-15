@@ -77,6 +77,21 @@ class Channel extends Model
         return $this->hasMany(ChannelMember::class);
     }
 
+    public function addMember(User $user, ?ChannelReferralLink $channelReferralLink = null)
+    {
+        return ChannelMember::create([
+            'channel_id' => $this->id,
+            'user_id' => $user->id,
+            'plan_id' => $this->plan_id,
+            'channel_referral_link_id' => optional($channelReferralLink)->id
+        ]);
+    }
+
+    public function hasMember(User $user): bool
+    {
+        return $this->members()->where('user_id', $user->getKey())->exists();
+    }
+
     public function getIngestURLAttribute()
     {
         return "rtmp://rtmp.seetv.dk/show/{$this->stream_key}";
@@ -85,11 +100,6 @@ class Channel extends Model
     public function getStreamURLAttribute()
     {
         return "https://rtmp.seetv.dk/hls/{$this->stream_key}";
-    }
-
-    public function hasMember(User $user): bool
-    {
-        return $this->members()->where('user_id', $user->getKey())->exists();
     }
 
     public function hasOverlappingBroadcasts(Broadcast $broadcast): bool

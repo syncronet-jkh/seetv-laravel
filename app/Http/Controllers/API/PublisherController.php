@@ -18,6 +18,8 @@ class PublisherController
             'plan_id' => $request->plan()->getKey()
         ]);
 
+        $publisher->addMember($request->user());
+
         $publisher->addresses()->saveMany(
             $request->addresses()
         );
@@ -35,10 +37,7 @@ class PublisherController
         );
 
         foreach ($channels as $channel) {
-            ChannelMember::query()->create([
-                'channel_id' => $channel->id,
-                'user_id' => $request->user()->id
-            ]);
+            $channel->addMember($request->user());
         }
 
         $publisher->load('addresses', 'emails', 'phones', 'channels');

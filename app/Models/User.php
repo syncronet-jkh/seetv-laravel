@@ -56,4 +56,14 @@ class User extends Authenticatable
             ->belongsToMany(Channel::class, ChannelMember::class)
             ->using(ChannelMember::class);
     }
+
+    public function currentPublisher()
+    {
+        return $this->belongsTo(Publisher::class, 'current_publisher_id');
+    }
+
+    public function currentChannel()
+    {
+        return $this->belongsTo(Channel::class, 'current_channel_id');
+    }
 }

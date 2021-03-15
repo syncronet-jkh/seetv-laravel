@@ -2,22 +2,29 @@
 
 namespace App\Policies;
 
-use App\Models\Publisher;
-use App\Models\Role;
+use App\Models\Channel;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class PublisherPolicy
+class ChannelPolicy
 {
     use HandlesAuthorization;
 
-    public function assignAsCurrent(User $user, Publisher $publisher)
+    public function assignAsCurrent(User $user, Channel $channel)
     {
-        if ($user->is($publisher->user)) {
+        if (!$user->currentPublisher) {
+            return $this->deny('Must assign a current publisher before assigning a current channel.');
+        }
+
+        if (!$user->currentPublisher->hasChannel($channel)) {
+            return $this->deny('Cannot assign a channel that is not part of the current publisher.');
+        }
+
+        if ($user->is($channel->user)) {
             return true;
         }
 
-        if ($publisher->hasMember($user)) {
+        if ($channel->hasMember($user)) {
             return true;
         }
     }
@@ -37,10 +44,10 @@ class PublisherPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Models\Channel  $channel
      * @return mixed
      */
-    public function view(User $user, Publisher $publisher)
+    public function view(User $user, Channel $channel)
     {
         //
     }
@@ -53,17 +60,17 @@ class PublisherPolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole(Role::PUBLISHER);
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Models\Channel  $channel
      * @return mixed
      */
-    public function update(User $user, Publisher $publisher)
+    public function update(User $user, Channel $channel)
     {
         //
     }
@@ -72,10 +79,10 @@ class PublisherPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Models\Channel  $channel
      * @return mixed
      */
-    public function delete(User $user, Publisher $publisher)
+    public function delete(User $user, Channel $channel)
     {
         //
     }
@@ -84,10 +91,10 @@ class PublisherPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Models\Channel  $channel
      * @return mixed
      */
-    public function restore(User $user, Publisher $publisher)
+    public function restore(User $user, Channel $channel)
     {
         //
     }
@@ -96,10 +103,10 @@ class PublisherPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Publisher  $publisher
+     * @param  \App\Models\Channel  $channel
      * @return mixed
      */
-    public function forceDelete(User $user, Publisher $publisher)
+    public function forceDelete(User $user, Channel $channel)
     {
         //
     }
