@@ -6,6 +6,7 @@ use App\Models\Plan;
 use App\Models\Payment;
 use App\Rules\SupportedPaymentGateway;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class PlanPurchaseStoreRequest extends FormRequest
 {
@@ -63,6 +64,12 @@ class PlanPurchaseStoreRequest extends FormRequest
         $validator->sometimes('gateway', 'required', fn () => !$this->plan()->is_free);
         $validator->sometimes('currency', 'required', fn () => !$this->plan()->is_free);
         $validator->sometimes('authorize_id', 'required', fn () => !$this->plan()->is_free);
+
+        $validator->after(function (Validator $validator) {
+            if (strtolower($this->gateway()) === 'free' && !$this->plan()->is_free) {
+                $validator->errors()->add('gateway', __('Cannot use Free gateway for a paid plan.'));
+            }
+        });
     }
 
     /**

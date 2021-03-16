@@ -87,7 +87,6 @@ class PlanPurchaseControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("api/Plans/{$plan->getKey()}/Purchase")
-            ->dump()
             ->assertSuccessful();
 
         $user->load('roles', 'permissions');
@@ -108,5 +107,30 @@ class PlanPurchaseControllerTest extends TestCase
             'plan_id' => $plan->id,
             'amount' => 0,
         ]);
+    }
+
+    /** @test */
+    public function test_cannot_use_free_gateway_for_a_paid_plan()
+    {
+        $this->seed([
+            PermissionSeeder::class,
+            PlanSeeder::class,
+        ]);
+
+        $plan = Plan::whereRole(Role::PUBLISHER)
+            ->where('title->en', 'Pro')
+            ->firstOrFail();
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson("api/Plans/{$plan->getKey()}/Purchase", [
+                'gateway' => 'free',
+                'authorize_id' => 'hack',
+                'currency' => 'DKK'
+            ])
+            ->assertJsonValidationErrors('gateway');
     }
 }
