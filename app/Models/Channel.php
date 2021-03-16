@@ -99,7 +99,7 @@ class Channel extends Model
 
     public function getStreamURLAttribute()
     {
-        return "https://rtmp.seetv.dk/hls/{$this->stream_key}";
+        return "https://rtmp.seetv.dk/hls/{$this->stream_key}.m3u8";
     }
 
     public function hasOverlappingBroadcasts(Broadcast $broadcast): bool
