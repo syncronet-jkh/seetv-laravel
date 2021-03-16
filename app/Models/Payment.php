@@ -41,7 +41,7 @@ class Payment extends Model
         );
     }
 
-    public function gateway(): PaymentGateway
+    public function gateway(): ?PaymentGateway
     {
         return app(PaymentGatewayManager::class)->driver($this->gateway);
     }
@@ -49,6 +49,11 @@ class Payment extends Model
     public function creditCard()
     {
         return $this->gateway()->fetchCard($this);
+    }
+
+    public function authorize()
+    {
+        return $this->gateway()->authorize($this);
     }
 
     public function charge()
@@ -69,9 +74,9 @@ class Payment extends Model
         $refundId = $this->gateway()->refund($this);
 
         $this->statuses()->create([
-           'value' => PaymentStatus::REFUNDED,
-           'gateway' => $this->gateway,
-           'gateway_id' => $refundId
+            'value' => PaymentStatus::REFUNDED,
+            'gateway' => $this->gateway,
+            'gateway_id' => $refundId
         ]);
 
         return $this;

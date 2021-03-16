@@ -22,6 +22,6 @@ class PaymentGatewayManagerTest extends TestCase
 
         $drivers = $manager->options();
 
-        self::assertEquals(['Paylike', 'fake'], $drivers->toArray());
+        self::assertEquals(['Paylike', 'Free', 'fake'], $drivers->toArray());
     }
 }

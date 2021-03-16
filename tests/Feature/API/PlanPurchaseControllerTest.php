@@ -87,6 +87,7 @@ class PlanPurchaseControllerTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson("api/Plans/{$plan->getKey()}/Purchase")
+            ->dump()
             ->assertSuccessful();
 
         $user->load('roles', 'permissions');
@@ -102,5 +103,10 @@ class PlanPurchaseControllerTest extends TestCase
                 $user->can($feature->permission->name)
             );
         }
+
+        $this->assertDatabaseHas('payments', [
+            'plan_id' => $plan->id,
+            'amount' => 0,
+        ]);
     }
 }

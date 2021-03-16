@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\FreePaymentGateway;
 use App\Services\PaylikePaymentGateway;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Manager;
@@ -40,22 +41,16 @@ class PaymentGatewayManager extends Manager
         return $this->defaultDriver;
     }
 
-    public function setDefaultDriver(string $driver)
-    {
-        if (!$this->options()->contains($driver)) {
-            throw new InvalidArgumentException("{$driver} not supported.");
-        }
-
-        $this->defaultDriver = $driver;
-
-        return $this->defaultDriver;
-    }
-
     public function createPaylikeDriver()
     {
         return new PaylikePaymentGateway(
-          new Paylike($this->config->get('services.paylike.app_id')),
-          $this->config->get('services.paylike.merchant_id')
+            new Paylike($this->config->get('services.paylike.app_id')),
+            $this->config->get('services.paylike.merchant_id')
         );
+    }
+
+    public function createFreeDriver()
+    {
+        return new FreePaymentGateway();
     }
 }

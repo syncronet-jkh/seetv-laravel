@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Plan;
+use App\Models\Payment;
 use App\Rules\SupportedPaymentGateway;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -20,10 +21,34 @@ class PlanPurchaseStoreRequest extends FormRequest
         return true;
     }
 
+    public function currency(): string
+    {
+        return $this->input('currency', 'DKK');
+    }
+
+    public function gateway(): string
+    {
+        return $this->input('gateway', 'Free');
+    }
+
+    public function payment(): Payment
+    {
+        $payment = new Payment($this->validated());
+        $payment->plan()->associate($this->plan());
+        $payment->price()->associate($this->plan()->prices->first());
+        $payment->gateway = $this->gateway();
+        $payment->currency = $this->currency();
+        $payment->authorize_id = $this->input('authorize_id', fn () => $payment->authorize());
+        $payment->amount = optional($payment->price)->amount ?? 0;
+        $payment->description = "{$this->plan()->role->name} {$this->plan()->title} Plan was purchased.";
+
+        return $payment;
+    }
+
     public function plan(): Plan
     {
         return $this->plan ??= Plan::with([
-            'prices' => fn ($prices) => $prices->where('currency', $this->input('currency', 'DKK'))
+            'prices' => fn ($prices) => $prices->where('currency', $this->currency())
         ])->findOrFail($this->route('plan'));
     }
 
