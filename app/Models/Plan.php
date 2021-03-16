@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 use function data_get;
 use function is_numeric;
-use function is_object;
+use function once;
 
 /**
  * Class Plan
@@ -43,6 +42,11 @@ class Plan extends Model
         $column = is_numeric($role) ? 'id' : 'name';
 
         $query->whereHas('role', fn ($q) => $q->where($column, $role));
+    }
+
+    public function getIsFreeAttribute(): bool
+    {
+        return once(fn () => $this->prices->isEmpty() || $this->prices->contains(fn ($price) => $price->amount === 0));
     }
 
     /**

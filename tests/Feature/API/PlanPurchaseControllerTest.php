@@ -42,7 +42,7 @@ class PlanPurchaseControllerTest extends TestCase
             ->assertSuccessful();
 
         PaymentGateway::driver('fake')->assertCaptured(
-            fn (Payment $payment, string $authorizeId) =>$authorizeId === '1234-testing'
+            fn (Payment $payment, string $authorizeId) => $authorizeId === '1234-testing'
         );
 
         $user->load('roles', 'permissions');
@@ -67,5 +67,40 @@ class PlanPurchaseControllerTest extends TestCase
             'amount' => 6250,
             'currency' => 'DKK'
         ]);
+    }
+
+    /** @test */
+    public function test_can_purchase_a_free_viewer_plan()
+    {
+        $this->seed([
+            PermissionSeeder::class,
+            PlanSeeder::class,
+        ]);
+
+        $plan = Plan::whereRole(Role::VIEWER)
+            ->where('title->en', 'Free')
+            ->firstOrFail();
+
+        /** @var User $user */
+        $user = User::factory()->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson("api/Plans/{$plan->getKey()}/Purchase")
+            ->assertSuccessful();
+
+        $user->load('roles', 'permissions');
+
+        $this->assertTrue($user->hasRole($plan->role));
+
+        foreach ($plan->features as $feature) {
+            $this->assertTrue(
+                $user->hasPermissionTo($feature->permission)
+            );
+
+            $this->assertTrue(
+                $user->can($feature->permission->name)
+            );
+        }
     }
 }

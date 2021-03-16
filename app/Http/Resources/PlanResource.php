@@ -20,34 +20,18 @@ class PlanResource extends JsonResource
      */
     public function toArray($request)
     {
-        $locale = $request->getLocale();
-
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'is_free' => $this->whenLoaded('prices', fn () => $this->is_free),
             'binding_period' => [
                 'days' => Date::parse($this->binding_period)->diffInDays(today()),
                 'raw' => $this->binding_period,
-                'formatted' => __('plan.binding_period.'.$this->binding_period, [], $locale)
+                'formatted' => __('plan.binding_period.' . $this->binding_period, [], $request->getLocale())
             ],
-            'prices' => $this->whenLoaded('prices', function () use ($locale) {
-                return $this->prices->map(fn (Price $price) => [
-                    'currency' => $price->currency,
-                    'amount' => [
-                        'minor' => $price->toMoney()->getMinorAmount()->abs()->toInt(),
-                        'formatted' => $price->toMoney()->formatTo($locale)
-                    ]
-                ]);
-            }),
-            'role' => $this->whenLoaded('role', fn () => $this->role->toLocaleName($locale)),
-            'features' => $this->whenLoaded('features', function () use ($locale) {
-                return $this->features->map(function (Feature $feature) use ($locale) {
-                    return [
-                        'permission' => $feature->permission->toLocaleName($locale),
-                        'enabled' => $feature->enabled
-                    ];
-                });
-            })
+            'prices' => $this->whenLoaded('prices', fn () => PriceResource::collection($this->prices)),
+            'role' => $this->whenLoaded('role', fn () => $this->role->toLocaleName($request->getLocale())),
+            'features' => $this->whenLoaded('features', fn () => PlanFeatureResource::collection($this->features))
         ];
     }
 }
