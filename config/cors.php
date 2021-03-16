@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => ['app.seetv.dk', 'app.zometv.com', 'localhost'],
 
     'allowed_origins_patterns' => [],
 
