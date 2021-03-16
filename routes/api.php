@@ -33,6 +33,7 @@ Route::post('Login', [LoginController::class, 'store']);
 Route::post('Register', [RegisterController::class, 'store']);
 Route::middleware('auth:api')->group(static function () {
     Route::get('User', [UserController::class, 'index']);
+    Route::match(['PUT', 'PATCH'], 'User', [UserController::class, 'update']);
     Route::post('CurrentPublisher', [CurrentPublisherController::class, 'store']);
     Route::post('CurrentChannel', [CurrentChannelController::class, 'store']);
 

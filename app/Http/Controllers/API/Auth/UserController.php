@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,5 +24,17 @@ class UserController
                 'publishers.addresses',
             )
         );
+    }
+
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'string|email|max:255|unique:users,email',
+            'phone_number' => 'string|max:255'
+        ]);
+
+        $request->user()->update($validated);
+
+        return $request->user();
     }
 }

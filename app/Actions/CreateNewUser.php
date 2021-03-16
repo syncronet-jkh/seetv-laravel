@@ -11,7 +11,7 @@ class CreateNewUser
     {
         return [
             'username' => 'required|string|max:255|unique:users,username',
-            'email' => 'required|string|email|max:255|unique:users,email',
+            'email' => 'nullable|string|email|max:255|unique:users,email',
             'password' => 'required|string|confirmed|min:8',
         ];
     }
